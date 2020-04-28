@@ -12,6 +12,7 @@ python main.py
 ```
 
 begin: Basic Modpack Info
+
 C1: Read Mods Folder Automatically and use the first way to search in cfwidget api
 
 C2: Read Mods Folder Automatically and use the second way to search in cfwidget api
