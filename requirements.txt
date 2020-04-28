@@ -1,0 +1,3 @@
+requests
+wxpython==4.0.7
+gooey
