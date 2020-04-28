@@ -123,20 +123,35 @@ def get_api_info(name):
 def analysis_api_info(args):
     name = args.Name
     res = get_api_info(name)
-    if not res:
+    if len(res) >= 3:
+        print(f'1. {res[0]["name"]}')
+        print(f'2. {res[1]["name"]}')
+        print(f'3. {res[2]["name"]}')
+    elif len(res) == 0:
         print("Mod not find!")
+        return
     else:
+        index = 0
+        while index < len(res):
+            print(f'{index+1}. {res[index]["name"]}')
+            index += 1
+    # choice = input("Choose the mod you want to add or try again(q): ")
+    choice = 1
+    if choice == "q":
+        return
+    else:
+        choice = int(choice) - 1
         FileID = ""
-        index = -1
+        index = 0
         while not FileID:
             try:
-                if modpackinfo.VERSION in res["files"][index]["versions"]:
-                    FileID = res["files"][index]["id"]
-                index -= 1
-            except Exception:
-                print(f"Mod {res['title']} analysis failed!")
+                if modpackinfo.VERSION == res[choice]["gameVersionLatestFiles"][index]["gameVersion"]:
+                    FileID = res[choice]["gameVersionLatestFiles"][index]["projectFileId"]
+                index += 1
+            except Exception as e:
+                print(f"Mod {name} analysis failed!")
                 return
-        ProjectID = res["id"]
+        ProjectID = res[choice]["id"]
         FilesInfo = {
             "projectID": ProjectID,
             "fileID": FileID,
@@ -144,10 +159,10 @@ def analysis_api_info(args):
         }
 
         modpackinfo.MANIFEST["files"].append(FilesInfo)
-        ProjectName = res["title"]
+        ProjectName = res[choice]["name"]
 
-        author = res["members"]["username"]
+        author = res[choice]["authors"][0]["name"]
         modshow = f'<li><a href="https://minecraft.curseforge.com/mc-mods/"{ProjectID}">{ProjectName} (by {author})</a></li>\n'
         modpackinfo.MODLIST += modshow
 
-        print(f"Mod {res['title']} add successfully!")
+        print(f"Mod {res[choice]['name']} Add successfully!")
