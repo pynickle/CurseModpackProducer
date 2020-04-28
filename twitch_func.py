@@ -7,6 +7,7 @@ import func
 headers = {"Content-Type": "application/json",
            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36"}
 
+
 def analysis_content(r, filename, name):
     choice = 0
     res = r.json()
@@ -45,10 +46,14 @@ def analysis_content(r, filename, name):
 
     print(f"Mod {res[choice]['name']} add successfully!")
 
+
 def analysis_file():
     func.get_uncomplete_mods()
-    for name, file in zip(modpackinfo.UNCOMPLETEMODS, modpackinfo.UNCOMPLETEMODSNAME):
-        r = requests.get(f"https://addons-ecs.forgesvc.net/api/v2/addon/search?gameId=432&sectionId=6&searchFilter={name}", headers = headers)
+    for name, file in zip(modpackinfo.UNCOMPLETEMODS,
+                          modpackinfo.UNCOMPLETEMODSNAME):
+        r = requests.get(
+            f"https://addons-ecs.forgesvc.net/api/v2/addon/search?gameId=432&sectionId=6&searchFilter={name}",
+            headers=headers)
         if r.status_code != 200:
             print(f"Mod {name} analysis failed!")
             # modpackinfo.UNCOMPLETEMODSNAME.append(file)
@@ -61,9 +66,11 @@ def analysis_file():
         print("failed mods number: ", len(modpackinfo.UNCOMPLETEMODS))
         func.save_data_to_file()
 
+
 def zipfile_info():
     func.get_uncomplete_mods()
-    for mod, name in zip(modpackinfo.UNCOMPLETEMODS, modpackinfo.UNCOMPLETEMODSNAME):
+    for mod, name in zip(modpackinfo.UNCOMPLETEMODS,
+                         modpackinfo.UNCOMPLETEMODSNAME):
         z = zipfile.ZipFile(f"mods/{name}", "r")
         if "mcmod.info" not in z.namelist():
             print(f"Mod {mod} analysis failed!")
@@ -84,13 +91,15 @@ def zipfile_info():
             # failed.append(mod)
             continue
         webname = infoname.replace(" ", "-")
-        r = requests.get(f"https://addons-ecs.forgesvc.net/api/v2/addon/search?gameId=432&sectionId=6&searchFilter={name}", headers = headers)
+        r = requests.get(
+            f"https://addons-ecs.forgesvc.net/api/v2/addon/search?gameId=432&sectionId=6&searchFilter={name}",
+            headers=headers)
 
         if r.status_code != 200:
             print(f"Mod {mod} analysis failed!")
             # failed.append(name)
             continue
-        
+
         analysis_content(r, name, mod)
 
     if not modpackinfo.UNCOMPLETEMODS:
@@ -99,13 +108,17 @@ def zipfile_info():
         print("Failed mods number: ", len(modpackinfo.UNCOMPLETEMODS))
         func.save_data_to_file()
 
+
 def get_api_info(name):
     webname = name.replace(" ", "-")
-    r = requests.get(f"https://addons-ecs.forgesvc.net/api/v2/addon/search?gameId=432&sectionId=6&searchFilter={webname}", headers = headers)
+    r = requests.get(
+        f"https://addons-ecs.forgesvc.net/api/v2/addon/search?gameId=432&sectionId=6&searchFilter={webname}",
+        headers=headers)
     if r.status_code != 200:
         return False
     else:
         return r.json()
+
 
 def analysis_api_info(args):
     name = args.Name

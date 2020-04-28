@@ -5,6 +5,7 @@ import func
 import cfwidget_func
 import twitch_func
 
+
 @Gooey
 def main():
     func.preparation()
@@ -44,6 +45,7 @@ def main():
         args.func(args)
     else:
         args.func()
+
 
 if __name__ == "__main__":
     main()

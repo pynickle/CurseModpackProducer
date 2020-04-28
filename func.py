@@ -2,6 +2,7 @@ import modpackinfo
 import os
 import json
 
+
 def set_modpack_info(args):
     modpackinfo.VERSION = args.MCVersion
 
@@ -19,6 +20,7 @@ def set_modpack_info(args):
 
     save_data_to_file()
 
+
 def preparation():
     if os.path.exists("failed.txt"):
         get_uncomplete_mods()
@@ -32,8 +34,10 @@ def preparation():
                 name = file.split("-", 1)[0].split("_")[0]
                 modpackinfo.UNCOMPLETEMODS.append(name)
     with open("failed.txt", "w", encoding="utf-8") as f:
-        for i, j in zip(modpackinfo.UNCOMPLETEMODS, modpackinfo.UNCOMPLETEMODSNAME):
+        for i, j in zip(modpackinfo.UNCOMPLETEMODS,
+                        modpackinfo.UNCOMPLETEMODSNAME):
             f.write(f"{i}: {j},\n")
+
 
 def get_uncomplete_mods():
     modpackinfo.UNCOMPLETEMODS = []
@@ -41,11 +45,14 @@ def get_uncomplete_mods():
     with open("failed.txt", "r", encoding="utf-8") as f:
         for i in f.readlines():
             modpackinfo.UNCOMPLETEMODS.append(i.split(": ")[0])
-            modpackinfo.UNCOMPLETEMODSNAME.append(i.split(": ")[1].split(",\n")[0])
+            modpackinfo.UNCOMPLETEMODSNAME.append(
+                i.split(": ")[1].split(",\n")[0])
+
 
 def save_data_to_file():
     with open("failed.txt", "w", encoding="utf-8") as f:
-        for i, j in zip(modpackinfo.UNCOMPLETEMODS, modpackinfo.UNCOMPLETEMODSNAME):
+        for i, j in zip(modpackinfo.UNCOMPLETEMODS,
+                        modpackinfo.UNCOMPLETEMODSNAME):
             f.write(f"{i}: {j},\n")
     with open("modlist.html", "w", encoding="utf-8") as f:
         f.write(modpackinfo.MODLIST + "</ul>")

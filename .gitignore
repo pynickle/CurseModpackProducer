@@ -2,4 +2,7 @@ failed.txt
 manifest.json
 modlist.html
 *.pyc
+*.spec
+build/*
+dist/*
 mods/*

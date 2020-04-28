@@ -4,6 +4,7 @@ import requests
 import modpackinfo
 import func
 
+
 def analysis_content(r, filename, name):
     res = r.json()
     FileID = ""
@@ -17,7 +18,7 @@ def analysis_content(r, filename, name):
             print(f"Mod {name} analysis failed!")
             # modpackinfo.UNCOMPLETEMODS.append(name)
             # modpackinfo.UNCOMPLETEMODSNAME.append(filename)
-            return 
+            return
     ProjectID = res["id"]
     FilesInfo = {
         "projectID": ProjectID,
@@ -36,9 +37,11 @@ def analysis_content(r, filename, name):
     modpackinfo.UNCOMPLETEMODS.remove(name)
     modpackinfo.UNCOMPLETEMODSNAME.remove(filename)
 
+
 def analysis_file():
     func.get_uncomplete_mods()
-    for name, file in zip(modpackinfo.UNCOMPLETEMODS, modpackinfo.UNCOMPLETEMODSNAME):
+    for name, file in zip(modpackinfo.UNCOMPLETEMODS,
+                          modpackinfo.UNCOMPLETEMODSNAME):
         r = requests.get(f"https://api.cfwidget.com/mc-mods/minecraft/{name}")
         if r.status_code != 200:
             print(f"Mod {name} analysis failed!")
@@ -52,9 +55,11 @@ def analysis_file():
         print("failed mods number: ", len(modpackinfo.UNCOMPLETEMODS))
         func.save_data_to_file()
 
+
 def zipfile_info():
     func.get_uncomplete_mods()
-    for mod, name in zip(modpackinfo.UNCOMPLETEMODS, modpackinfo.UNCOMPLETEMODSNAME):
+    for mod, name in zip(modpackinfo.UNCOMPLETEMODS,
+                         modpackinfo.UNCOMPLETEMODSNAME):
         z = zipfile.ZipFile(f"mods/{name}", "r")
         if "mcmod.info" not in z.namelist():
             print(f"Mod {mod} analysis failed!")
@@ -75,13 +80,14 @@ def zipfile_info():
             # failed.append(mod)
             continue
         webname = infoname.replace(" ", "-")
-        r = requests.get(f"https://api.cfwidget.com/mc-mods/minecraft/{webname}")
+        r = requests.get(
+            f"https://api.cfwidget.com/mc-mods/minecraft/{webname}")
 
         if r.status_code != 200:
             print(f"Mod {mod} analysis failed!")
             # failed.append(name)
             continue
-        
+
         analysis_content(r, name, mod)
 
     if not modpackinfo.UNCOMPLETEMODS:
@@ -90,6 +96,7 @@ def zipfile_info():
         print("Failed mods number: ", len(modpackinfo.UNCOMPLETEMODS))
         func.save_data_to_file()
 
+
 def get_api_info(name):
     webname = name.replace(" ", "-")
     r = requests.get(f"https://api.cfwidget.com/mc-mods/minecraft/{webname}")
@@ -97,6 +104,7 @@ def get_api_info(name):
         return False
     else:
         return r.json()
+
 
 def analysis_api_info(args):
     name = args.Name
