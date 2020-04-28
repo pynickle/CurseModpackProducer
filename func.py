@@ -47,7 +47,10 @@ def get_uncomplete_mods():
             modpackinfo.UNCOMPLETEMODS.append(i.split(": ")[0])
             modpackinfo.UNCOMPLETEMODSNAME.append(
                 i.split(": ")[1].split(",\n")[0])
-
+    with open("manifest.json", "r", encoding="utf-8") as f:
+        modpackinfo.MANIFEST = json.load(f, encoding="utf-8")
+    with open("modlist.html", "r", encoding="utf-8") as f:
+        modpackinfo.MODLIST = f.read()[:-5]
 
 def save_data_to_file():
     with open("failed.txt", "w", encoding="utf-8") as f:
