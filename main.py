@@ -21,8 +21,8 @@ def main():
     begin.set_defaults(func=func.set_modpack_info)
 
     custom = subparsers.add_parser("custom")
-    custom.add_argument("ProjectID")
-    custom.add_argument("FileID")
+    custom.add_argument("ProjectID", type=int)
+    custom.add_argument("FileID", type=int)
     custom.set_defaults(func=func.custom_add)
 
     fix = subparsers.add_parser("fix")
