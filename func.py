@@ -1,7 +1,31 @@
 import modpackinfo
 import os
 import json
+import re
 
+
+def fix():
+    with open("manifest.json", "r", encoding="utf-8") as f:
+        text = f.read()
+
+    t = re.sub(r'"(?P<string>\d+)"', r'\g<string>', text)
+
+    with open("manifest.json", "w", encoding="utf-8") as f:
+        f.write(t)
+
+    get_uncomplete_mods()
+
+    print("fix successfully!")
+
+def custom_add(args):
+    FilesInfo = {
+        "projectID": args.ProjectID,
+        "fileID": args.FileID,
+        "required": "true"
+    }
+    modpackinfo.MANIFEST["files"].append(FilesInfo)
+    save_data_to_file()
+    print("Save Successfully!")
 
 def set_modpack_info(args):
     modpackinfo.VERSION = args.MCVersion

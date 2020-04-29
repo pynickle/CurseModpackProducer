@@ -20,6 +20,14 @@ def main():
     begin.add_argument("ModpackVersion")
     begin.set_defaults(func=func.set_modpack_info)
 
+    custom = subparsers.add_parser("custom")
+    custom.add_argument("ProjectID")
+    custom.add_argument("FileID")
+    custom.set_defaults(func=func.custom_add)
+
+    fix = subparsers.add_parser("fix")
+    fix.set_defaults(func=func.fix)
+
     sub1 = subparsers.add_parser("C1")
     sub1.set_defaults(func=cfwidget_func.analysis_file)
 
@@ -41,7 +49,7 @@ def main():
     sub6.set_defaults(func=twitch_func.analysis_api_info)
 
     args = parser.parse_args()
-    if "Name" in args:
+    if "Name" in args or "ProjectID" in args:
         args.func(args)
     else:
         args.func()
