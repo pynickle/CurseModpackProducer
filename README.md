@@ -13,6 +13,8 @@ python main.py
 
 begin: Basic Modpack Info
 
+custom: add project by projectid and fileid
+
 fix: fix some probable problem for manifest.json
 
 C1: Read Mods Folder Automatically and use the first way to search in cfwidget api
